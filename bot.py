@@ -158,7 +158,7 @@ def build_info_text(message: Message) -> str:
 # --- АДМИН-ПАНЕЛЬ ---
 async def manage_id_list(message: Message, command: str, list_name: str, add_msg: str, remove_msg: str, list_title: str):
     parts = message.text.split(maxsplit=1)
-    action = "list" if command == "list" else "add" if "add" in command else "remove"
+    action = command.split('_')[0]
     
     if action == "list":
         item_list = db.data.get(list_name, [])
