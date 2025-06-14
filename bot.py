@@ -15,13 +15,14 @@ from aiogram.client.default import DefaultBotProperties
 
 # --- КОНФИГУРАЦИЯ ---
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-ADMINS_RAW = os.getenv("ADMINS")
-ADMINS: Set[int] = {int(admin_id.strip()) for admin_id in ADMINS_RAW.split(",") if admin_id.strip()}
-SOURCE_CHATS_RAW = os.getenv("SOURCE_CHATS")
-SOURCE_CHAT_IDS: Set[int] = {int(chat_id.strip()) for chat_id in SOURCE_CHATS_RAW.split(",") if chat_id.strip()}
+ADMINS: list[int] = [1189419672, 1602393068]
+SOURCE_CHAT_IDS: Set[int] = {
+    -1001433669620, # @namangantoshkent24
+    -1001327239978, # @Namangantoshkent26
+    -1001737181397, # @Namangan_toshkent_taksi_29
+}
 
 DATA_FILE = Path("data.json")
-
 # --- ЛОГИРОВАНИЕ ---
 logging.basicConfig(
     format="%(asctime)s | %(levelname)-8s | %(name)s | %(message)s",
