@@ -15,9 +15,9 @@ from aiogram.client.default import DefaultBotProperties
 
 # --- КОНФИГУРАЦИЯ ---
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-ADMINS_RAW = os.getenv("ADMINS", "")
+ADMINS_RAW = os.getenv("ADMINS")
 ADMINS: Set[int] = {int(admin_id.strip()) for admin_id in ADMINS_RAW.split(",") if admin_id.strip()}
-SOURCE_CHATS_RAW = os.getenv("SOURCE_CHATS", "")
+SOURCE_CHATS_RAW = os.getenv("SOURCE_CHATS")
 SOURCE_CHAT_IDS: Set[int] = {int(chat_id.strip()) for chat_id in SOURCE_CHATS_RAW.split(",") if chat_id.strip()}
 
 DATA_FILE = Path("data.json")
