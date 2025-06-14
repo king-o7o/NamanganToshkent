@@ -176,8 +176,6 @@ async def manage_id_list(message: Message, command: str, list_name: str, add_msg
         if db.remove_item(list_name, uid): await message.reply(f"🗑 {remove_msg}: <code>{uid}</code>")
         else: await message.reply("Бу ID рўйхатда йўқ.")
 
-# --- ИСПРАВЛЕННЫЕ ОБРАБОТЧИКИ ---
-# Добавлен **kwargs для приема лишних аргументов от aiogram
 
 @router.message(Command("add"), F.chat.type == ChatType.PRIVATE)
 @admin_only
@@ -224,17 +222,25 @@ async def manage_keywords(message: Message, **kwargs):
 async def main() -> None:
     bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
     dp = Dispatcher()
+    
     dp.include_router(router)
+
     while True:
         try:
             log.info("Запуск бота...")
             await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
+        
         except (KeyboardInterrupt, SystemExit):
-            log.info("Бот остановлен вручную."); break
+            log.info("Бот остановлен вручную.")
+            break
+            
         except TelegramRetryAfter as e:
-            log.warning("Flood-wait %s секунд.", e.retry_after); await asyncio.sleep(e.retry_after)
+            log.warning("Flood-wait %s секунд.", e.retry_after)
+            await asyncio.sleep(e.retry_after)
+            
         except Exception:
-            log.exception("Критическая ошибка, перезапуск через 15 секунд."); await asyncio.sleep(15)
+            log.exception("Критическая ошибка, перезапуск через 15 секунд.")
+            await asyncio.sleep(15)
 
 if __name__ == "__main__":
     asyncio.run(main())
