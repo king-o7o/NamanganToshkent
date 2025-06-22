@@ -40,7 +40,7 @@ if not SOURCE_CHAT_IDS:
 
 # --- УПРАВЛЕНИЕ ДАННЫМИ (JSON) ---
 class DataManager:
-    def init(self, file_path: Path):
+    def __init__(self, file_path: Path):
         self.file_path = file_path
         self.data = self._load()
 
@@ -101,6 +101,7 @@ def admin_only(handler):
             return await message.reply("⛔️ Сизда етарли ҳуқуқ йўқ.")
         return await handler(message, *args, **kwargs)
     return wrapper
+
 # --- ОСНОВНЫЕ ХЭНДЛЕРЫ ---
 @router.message(Command("start"), F.chat.type == ChatType.PRIVATE)
 async def cmd_start(message: Message) -> None:
@@ -175,7 +176,9 @@ async def manage_id_list(message: Message, command: str, list_name: str, add_msg
     elif action == "remove":
         if db.remove_item(list_name, uid): await message.reply(f"🗑 {remove_msg}: <code>{uid}</code>")
         else: await message.reply("Бу ID рўйхатда йўқ.")
-        @router.message(Command("add"), F.chat.type == ChatType.PRIVATE)
+
+
+@router.message(Command("add"), F.chat.type == ChatType.PRIVATE)
 @admin_only
 async def cmd_add(message: Message, **kwargs): await manage_id_list(message, "add", "recipients", "Қўшилди", "", "")
 @router.message(Command("remove"), F.chat.type == ChatType.PRIVATE)
@@ -240,5 +243,5 @@ async def main() -> None:
             log.exception("Критическая ошибка, перезапуск через 15 секунд.")
             await asyncio.sleep(15)
 
-if name == "main":
+if __name__ == "__main__":
     asyncio.run(main())
